@@ -34,7 +34,6 @@ void EnableFreeCameraPacket(Player* pl) {
     pl->sendNetworkPacket(pkt2);
     pl->sendNetworkPacket(pkt1);
     auto pkt3 = AddPlayerPacket(*pl);
-    pkt3.mRuntimeId.id = pkt3.mRuntimeId.id + 114514;
     pkt3.mEntityId.id = pkt3.mEntityId.id + 114514;
     pkt3.mUuid = mce::UUID::random();
     pl->sendNetworkPacket(pkt3);
