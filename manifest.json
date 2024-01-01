@@ -1,5 +1,5 @@
 {
-    "name": "${pluginName}",
-    "entry": "${pluginFile}",
+    "name": "FreeCamera",
+    "entry": "FreeCamera.dll",
     "type": "native"
 }
