@@ -25,7 +25,6 @@ public:
 private:
     ll::plugin::NativePlugin& mSelf;
     ll::event::ListenerPtr mSetupCommandEventListener;
-    ll::event::ListenerPtr mPlayerLeftEventListener;
 };
 
 } // namespace plugin
