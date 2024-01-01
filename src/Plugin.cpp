@@ -29,6 +29,11 @@ void EnableFreeCameraPacket(Player* pl) {
     abilities.setAbility(AbilitiesIndex::Flying, true);
     abilities.setAbility(AbilitiesIndex::MayFly, true);
     abilities.setAbility(AbilitiesIndex::NoClip, true);
+    abilities.setAbility(AbilitiesIndex::Build, false);
+    abilities.setAbility(AbilitiesIndex::Mine, false);
+    abilities.setAbility(AbilitiesIndex::DoorsAndSwitches, false);
+    abilities.setAbility(AbilitiesIndex::AttackMobs, false);
+    abilities.setAbility(AbilitiesIndex::AttackMobs, false);
     UpdateAbilitiesPacket pkt1(pl->getOrCreateUniqueID(), abilities);
     auto                  pkt2 = UpdateAdventureSettingsPacket(AdventureSettings());
     pl->sendNetworkPacket(pkt2);
