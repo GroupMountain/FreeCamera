@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ll/api/plugin/NativePlugin.h>
+#include <ll/api/event/ListenerBase.h>
 
 namespace plugin {
 
@@ -23,6 +24,8 @@ public:
 
 private:
     ll::plugin::NativePlugin& mSelf;
+    ll::event::ListenerPtr mSetupCommandEventListener;
+    ll::event::ListenerPtr mPlayerLeftEventListener;
 };
 
 } // namespace plugin
