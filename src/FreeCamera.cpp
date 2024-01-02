@@ -11,10 +11,10 @@ void EnableFreeCameraPacket(Player* pl) {
 }
 
 void SendFakePlayerPacket(Player* pl) {
-    auto pkt         = AddPlayerPacket(*pl);
-    pkt.mEntityId.id = pkt.mEntityId.id + 114514;
-    pkt.mUuid        = mce::UUID::random();
-    pl->sendNetworkPacket(pkt);
+    auto pkt         = (AddPlayerPacket*)pl->tryCreateAddActorPacket().get();//AddPlayerPacket(*pl);
+    pkt->mEntityId.id = pkt->mEntityId.id + 114514;
+    pkt->mUuid        = mce::UUID::random();
+    pl->sendNetworkPacket(*pkt);
 }
 
 void DisableFreeCameraPacket(Player* pl) {
