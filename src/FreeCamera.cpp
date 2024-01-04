@@ -1,5 +1,5 @@
-#include "include_mcapi.h"
-#include <ll/api/memory/Hook.h>
+#include "include_all.h"
+#include "Global.h"
 
 std::unordered_set<uint64> FreeCamList;
 
@@ -11,10 +11,24 @@ void EnableFreeCameraPacket(Player* pl) {
 }
 
 void SendFakePlayerPacket(Player* pl) {
-    auto pkt         = (AddPlayerPacket*)pl->tryCreateAddActorPacket().get();//AddPlayerPacket(*pl);
-    pkt->mEntityId.id = pkt->mEntityId.id + 114514;
-    pkt->mUuid        = mce::UUID::random();
-    pl->sendNetworkPacket(*pkt);
+    // Client Player
+    auto pkt1         = AddPlayerPacket(*pl);
+    pkt1.mEntityId.id = pkt1.mEntityId.id + 114514;
+    auto randomUuid   = mce::UUID::random();
+    pkt1.mUuid        = randomUuid;
+    pl->sendNetworkPacket(pkt1);
+    // Update Skin
+    auto         skin = pl->getSkin();
+    BinaryStream bs;
+    bs.writeUnsignedInt64(randomUuid.a, 0i64, 0i64);
+    bs.writeUnsignedInt64(randomUuid.b, 0i64, 0i64);
+    skin.write(bs);
+    bs.writeString("", 0i64, 0i64);
+    bs.writeString("", 0i64, 0i64);
+    bs.writeBool(true, 0i64, 0i64);
+    auto pkt2 = MinecraftPackets::createPacket(MinecraftPacketIds::PlayerSkin);
+    pkt2->read(bs);
+    pl->sendNetworkPacket(*pkt2);
 }
 
 void DisableFreeCameraPacket(Player* pl) {

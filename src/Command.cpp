@@ -1,3 +1,4 @@
+#include "include_all.h"
 #include "Global.h"
 
 void RegisterCommand(CommandRegistry& registry) {

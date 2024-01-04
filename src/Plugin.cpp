@@ -1,17 +1,21 @@
+#include "include_all.h"
 #include "Global.h"
+
+ll::Logger logger("FreeCamera");
 
 namespace plugin {
 
 Plugin::Plugin(ll::plugin::NativePlugin& self) : mSelf(self) {
     // Code for loading the plugin goes here.
-    auto& eventBus             = ll::event::EventBus::getInstance();
-    mSetupCommandEventListener = eventBus.emplaceListener<ll::event::command::SetupCommandEvent>([](ll::event::command::SetupCommandEvent& event) {
-        RegisterCommand(event.registry());
-    });  
 }
 
 bool Plugin::enable() {
-    auto& logger = mSelf.getLogger();
+    auto registry = ll::service::getCommandRegistry();
+    if (registry) {
+        RegisterCommand(registry);
+    } else {
+        logger.error("Fail to register freecamera command!");
+    }
     logger.info("FreeCamera Loaded!");
     logger.info("Author: Tsubasa6848");
     logger.info("Repository: https://github.com/GroupMountain/FreeCamera");
@@ -22,13 +26,17 @@ bool Plugin::disable() {
     auto& logger = mSelf.getLogger();
     logger.info("Disabling FreeCamera...");
     // Code for disabling the plugin goes here.
-    auto& eventBus = ll::event::EventBus::getInstance();
-    eventBus.removeListener(mSetupCommandEventListener);
     FreeCamList.clear();
     ll::service::getLevel().get().forEachPlayer([](Player& pl) -> bool {
         FreeCamera::DisableFreeCamera(&pl);
         return true;
     });
+    auto registry = ll::service::getCommandRegistry();
+    if (registry) {
+        registry->unregisterCommand("freecamera");
+    } else {
+        logger.error("Fail to unregister freecamera command!");
+    }
     logger.info("FreeCamera Disabled!");
     return true;
 }

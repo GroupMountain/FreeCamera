@@ -7,7 +7,7 @@ namespace plugin {
 
 class Plugin {
 public:
-    Plugin(ll::plugin::NativePlugin& self);
+    explicit Plugin(ll::plugin::NativePlugin& self);
 
     Plugin(Plugin&&)                 = delete;
     Plugin(const Plugin&)            = delete;
@@ -24,7 +24,6 @@ public:
 
 private:
     ll::plugin::NativePlugin& mSelf;
-    ll::event::ListenerPtr mSetupCommandEventListener;
 };
 
 } // namespace plugin
