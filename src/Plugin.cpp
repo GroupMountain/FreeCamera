@@ -1,5 +1,7 @@
 #include "Global.h"
 
+ll::Logger logger("FreeCamera");
+
 namespace plugin {
 
 Plugin::Plugin(ll::plugin::NativePlugin& self) : mSelf(self) {

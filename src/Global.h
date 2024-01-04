@@ -8,6 +8,7 @@
 #include <ll/api/memory/Hook.h>
 #include "include_mcapi.h"
 
+extern ll::Logger logger;
 extern std::unordered_set<uint64> FreeCamList;
 extern void RegisterCommand(CommandRegistry &registry);
 
