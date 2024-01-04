@@ -1,3 +1,4 @@
+#include "include_all.h"
 #include "Global.h"
 
 std::unordered_set<uint64> FreeCamList;

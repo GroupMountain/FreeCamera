@@ -24,7 +24,6 @@ public:
 
 private:
     ll::plugin::NativePlugin& mSelf;
-    ll::event::ListenerPtr mSetupCommandEventListener;
 };
 
 } // namespace plugin

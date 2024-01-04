@@ -1,7 +1,5 @@
 #include <memory>
-
 #include <ll/api/plugin/NativePlugin.h>
-
 #include "Plugin.h"
 
 namespace plugin {
