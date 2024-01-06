@@ -1,7 +1,7 @@
 {
     "format_version": 2,
     "tooth": "github.com/GroupMountain/FreeCamera",
-    "version": "1.0.0",
+    "version": "0.3.0",
     "info": {
         "name": "FreeCamera",
         "description": "Free Camera Plugin on Bedrock Dedicated Server",
