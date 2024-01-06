@@ -1,0 +1,5 @@
+{
+    "name": "FreeCamera",
+    "entry": "FreeCamera.dll",
+    "type": "native"
+}
