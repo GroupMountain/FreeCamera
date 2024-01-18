@@ -1,5 +1,9 @@
 #pragma once
 #include "Plugin.h"
+#include <GMLIB/Server/BinaryStreamAPI.h>
+#define PLUGIN_NAME "FreeCamera"
+
+using namespace GMLIB;
 
 extern ll::Logger logger;
 extern std::unordered_set<uint64> FreeCamList;

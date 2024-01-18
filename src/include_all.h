@@ -25,6 +25,7 @@
 #include <ll/api/chrono/GameChrono.h>
 #include <ll/api/command/CommandRegistrar.h>
 #include <ll/api/command/DynamicCommand.h>
+#include <ll/api/dimension/CustomDimensionManager.h>
 #include <ll/api/event/Cancellable.h>
 #include <ll/api/event/DynamicListener.h>
 #include <ll/api/event/Emitter.h>
@@ -62,11 +63,12 @@
 #include <ll/api/event/player/PlayerSwingEvent.h>
 #include <ll/api/event/player/PlayerUseItemEvent.h>
 #include <ll/api/event/player/PlayerUseItemOnEvent.h>
+#include <ll/api/event/server/ServerStartedEvent.h>
+#include <ll/api/event/server/ServerStoppingEvent.h>
+#include <ll/api/event/server/ServiceEvents.h>
 #include <ll/api/event/world/BlockChangedEvent.h>
 #include <ll/api/event/world/FireSpreadEvent.h>
 #include <ll/api/event/world/LevelEvent.h>
-#include <ll/api/event/world/ServerStartedEvent.h>
-#include <ll/api/event/world/ServerStoppingEvent.h>
 #include <ll/api/event/world/SpawnMobEvent.h>
 #include <ll/api/event/world/WorldEvent.h>
 #include <ll/api/form/CustomForm.h>
@@ -97,6 +99,9 @@
 #include <ll/api/schedule/Task.h>
 #include <ll/api/service/Bedrock.h>
 #include <ll/api/service/PlayerInfo.h>
+#include <ll/api/service/Service.h>
+#include <ll/api/service/ServiceId.h>
+#include <ll/api/service/ServiceManager.h>
 #include <ll/api/thread/GlobalThreadPauser.h>
 #include <ll/api/thread/InterruptableSleep.h>
 #include <ll/api/thread/SharedRecursiveMutex.h>
@@ -2118,7 +2123,9 @@
 #include <mc/enums/BehaviorStatus.h>
 #include <mc/enums/BigDripleafTilt.h>
 #include <mc/enums/BlendVersion.h>
+#include <mc/enums/BlockLayer.h>
 #include <mc/enums/BlockSlot.h>
+#include <mc/enums/BlockUpdateFlag.h>
 #include <mc/enums/BoneAnimationRelativeMode.h>
 #include <mc/enums/BoneTransformType.h>
 #include <mc/enums/BookEditAction.h>
@@ -2382,6 +2389,7 @@
 #include <mc/external/concurrentqueue/ConcurrentQueue.h>
 #include <mc/external/concurrentqueue/ConcurrentQueueDefaultTraits.h>
 #include <mc/external/concurrentqueue/moodycamel.h>
+#include <mc/external/expected_lite/expected.h>
 #include <mc/external/glm/glm.h>
 #include <mc/external/glm/mat.h>
 #include <mc/external/glm/qua.h>
@@ -2394,11 +2402,6 @@
 #include <mc/external/lib_http_client/ThreadPoolImpl.h>
 #include <mc/external/lib_http_client/WaitTimer.h>
 #include <mc/external/lib_http_client/WaitTimerImpl.h>
-#include <mc/external/nonstd/detail.h>
-#include <mc/external/nonstd/expected.h>
-#include <mc/external/nonstd/expected_lite.h>
-#include <mc/external/nonstd/nonstd.h>
-#include <mc/external/nonstd/storage_t.h>
 #include <mc/external/openssl/evp_md_st.h>
 #include <mc/external/openssl/ssl_ctx_st.h>
 #include <mc/external/openssl/ssl_session_st.h>
@@ -4054,6 +4057,7 @@
 #include <mc/world/BlockID.h>
 #include <mc/world/Container.h>
 #include <mc/world/ContainerContentChangeListener.h>
+#include <mc/world/ContainerIterator.h>
 #include <mc/world/ContainerSizeChangeListener.h>
 #include <mc/world/Direction.h>
 #include <mc/world/Facing.h>

@@ -1,7 +1,7 @@
-#include "include_all.h"
 #include "Global.h"
+#include "include_all.h"
 
-ll::Logger logger("FreeCamera");
+ll::Logger logger(PLUGIN_NAME);
 
 namespace plugin {
 
