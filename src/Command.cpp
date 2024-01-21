@@ -2,11 +2,13 @@
 #include "include_all.h"
 #include <GMLIB/Server/ActorAPI.h>
 
+using namespace GMLIB::Files::JsonLanguage;
+
 void RegisterCommand(CommandRegistry& registry) {
     auto command = DynamicCommand::createCommand(
         registry,
         "freecamera",
-        "Enable or disable free camera mode",
+        translate(Language, "freecamera.command.desc"),
         CommandPermissionLevel::Any
     );
     command->setAlias("fc");
@@ -21,13 +23,13 @@ void RegisterCommand(CommandRegistry& registry) {
             auto guid = pl->getNetworkIdentifier().mGuid.g;
             if (!FreeCamList.count(guid)) {
                 FreeCamera::EnableFreeCamera(pl);
-                return output.success("Free camera enabled");
+                return output.success(translate(Language, "freecamera.command.enabled"));
             } else {
                 FreeCamera::DisableFreeCamera(pl);
-                return output.success("Free camera disabled");
+                return output.success(translate(Language, "freecamera.command.disabled"));
             }
         }
-        return output.error("Only players can execute this command!");
+        return output.error(translate(Language, "freecamera.command.console"));
     });
     DynamicCommand::setup(registry, std::move(command));
 }
