@@ -15,5 +15,7 @@ void initLanguage() {
         language = lang.value();
     }
     ll::utils::string_utils::replaceAll(langPath, "{language}", lang.value());
-    Language = GMLIB::Files::JsonLanguage::readFromFile(langPath);
+    Language = GMLIB::Files::JsonLanguage::initLanguage(langPath, defaultLanguage);
 }
+
+std::string tr(std::string key) { return GMLIB::Files::JsonLanguage::translate(Language, key); }

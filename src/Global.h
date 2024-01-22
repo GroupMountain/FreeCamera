@@ -11,7 +11,7 @@ extern std::unordered_set<uint64> FreeCamList;
 extern void RegisterCommand();
 extern void initLanguage();
 
-extern nlohmann::json Language;
+extern std::string tr(std::string key);
 
 namespace FreeCamera {
     extern void DisableFreeCamera(Player* pl);
