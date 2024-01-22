@@ -9,7 +9,7 @@ void RegisterCommand() {
     auto command = DynamicCommand::createCommand(
         registry,
         "freecamera",
-        translate(Language, "freecamera.command.desc"),
+        tr("freecamera.command.desc"),
         CommandPermissionLevel::Any
     );
     command->setAlias("fc");
@@ -24,13 +24,13 @@ void RegisterCommand() {
             auto guid = pl->getNetworkIdentifier().mGuid.g;
             if (!FreeCamList.count(guid)) {
                 FreeCamera::EnableFreeCamera(pl);
-                return output.success(translate(Language, "freecamera.command.enabled"));
+                return output.success(tr("freecamera.command.enabled"));
             } else {
                 FreeCamera::DisableFreeCamera(pl);
-                return output.success(translate(Language, "freecamera.command.disabled"));
+                return output.success(tr("freecamera.command.disabled"));
             }
         }
-        return output.error(translate(Language, "freecamera.command.console"));
+        return output.error(tr("freecamera.command.console"));
     });
     DynamicCommand::setup(registry, std::move(command));
 }
