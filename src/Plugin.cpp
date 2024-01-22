@@ -1,21 +1,26 @@
-#include "include_all.h"
 #include "Global.h"
+#include "include_all.h"
 
-ll::Logger logger("FreeCamera");
+ll::Logger logger(PLUGIN_NAME);
 
 namespace plugin {
 
 Plugin::Plugin(ll::plugin::NativePlugin& self) : mSelf(self) {
     // Code for loading the plugin goes here.
+    initLanguage();
 }
 
 bool Plugin::enable() {
-    auto registry = ll::service::getCommandRegistry();
-    if (registry) {
-        RegisterCommand(registry);
-    } else {
-        logger.error("Fail to register freecamera command!");
+    auto requireLibVersion = SemVersion(0, 5, 4, "", "");
+    if (!GMLIB::Version::checkLibVersionMatch(requireLibVersion)) {
+        logger.error("GMLIB Version is outdated! Please update your GMLIB!");
+        logger.error(
+            "Current GMLIB Version {}, Required Lowest GMLIB Version {}",
+            GMLIB::Version::getLibVersionString(),
+            requireLibVersion.asString()
+        );
     }
+    RegisterCommand();
     logger.info("FreeCamera Loaded!");
     logger.info("Author: Tsubasa6848");
     logger.info("Repository: https://github.com/GroupMountain/FreeCamera");

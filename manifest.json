@@ -1,5 +1,10 @@
 {
-    "name": "FreeCamera",
-    "entry": "FreeCamera.dll",
-    "type": "native"
+    "name": "${pluginName}",
+    "entry": "${pluginFile}",
+    "type": "native",
+    "dependencies": [
+        {
+            "name": "GMLIB"
+        }
+    ]
 }
