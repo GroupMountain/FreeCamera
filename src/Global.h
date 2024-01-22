@@ -8,7 +8,7 @@ using namespace GMLIB;
 
 extern ll::Logger logger;
 extern std::unordered_set<uint64> FreeCamList;
-extern void RegisterCommand(CommandRegistry &registry);
+extern void RegisterCommand();
 extern void initLanguage();
 
 extern nlohmann::json Language;

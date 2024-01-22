@@ -4,7 +4,8 @@
 
 using namespace GMLIB::Files::JsonLanguage;
 
-void RegisterCommand(CommandRegistry& registry) {
+void RegisterCommand() {
+    auto registry = ll::service::getCommandRegistry();
     auto command = DynamicCommand::createCommand(
         registry,
         "freecamera",
