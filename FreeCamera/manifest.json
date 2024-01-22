@@ -1,16 +1,10 @@
 {
-<<<<<<< HEAD
     "name": "FreeCamera",
     "entry": "FreeCamera.dll",
-    "type": "native"
-=======
-    "name": "${pluginName}",
-    "entry": "${pluginFile}",
     "type": "native",
     "dependencies": [
         {
             "name": "GMLIB"
         }
     ]
->>>>>>> 357ecdc4803ac148484530637d04e4413b9cf7ff
 }

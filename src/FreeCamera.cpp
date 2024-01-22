@@ -1,5 +1,5 @@
-#include "include_mcapi.h"
-#include <ll/api/memory/Hook.h>
+#include "Global.h"
+#include "include_all.h"
 
 std::unordered_set<uint64> FreeCamList;
 
@@ -11,10 +11,23 @@ void EnableFreeCameraPacket(Player* pl) {
 }
 
 void SendFakePlayerPacket(Player* pl) {
-    auto pkt         = AddPlayerPacket(*pl);
-    pkt.mEntityId.id = pkt.mEntityId.id + 114514;
-    pkt.mUuid        = mce::UUID::random();
-    pl->sendNetworkPacket(pkt);
+    // Client Player
+    auto pkt1         = AddPlayerPacket(*pl);
+    pkt1.mEntityId.id = pkt1.mEntityId.id + 114514;
+    auto randomUuid   = mce::UUID::random();
+    pkt1.mUuid        = randomUuid;
+    pl->sendNetworkPacket(pkt1);
+    // Update Skin
+    auto         skin = pl->getSkin();
+    GMLIB_BinaryStream bs;
+    bs.writeUuid(randomUuid);
+    bs.writeSkin(skin);
+    bs.writeString("");
+    bs.writeString("");
+    bs.writeBool(true);
+    auto pkt2 = MinecraftPackets::createPacket(MinecraftPacketIds::PlayerSkin);
+    pkt2->read(bs);
+    pl->sendNetworkPacket(*pkt2);
 }
 
 void DisableFreeCameraPacket(Player* pl) {
@@ -43,7 +56,7 @@ void DisableFreeCamera(Player* pl) {
 } // namespace FreeCamera
 
 
-LL_AUTO_TYPED_INSTANCE_HOOK(
+LL_AUTO_TYPE_INSTANCE_HOOK(
     SubChunkRequestEvent,
     ll::memory::HookPriority::Normal,
     ServerNetworkHandler,
@@ -59,7 +72,7 @@ LL_AUTO_TYPED_INSTANCE_HOOK(
     }
 }
 
-LL_AUTO_TYPED_INSTANCE_HOOK(
+LL_AUTO_TYPE_INSTANCE_HOOK(
     ServerPlayerMoveHandleEvent,
     ll::memory::HookPriority::Normal,
     ServerNetworkHandler,
@@ -75,7 +88,7 @@ LL_AUTO_TYPED_INSTANCE_HOOK(
     }
 }
 
-LL_AUTO_TYPED_INSTANCE_HOOK(
+LL_AUTO_TYPE_INSTANCE_HOOK(
     PlayerGamemodeChangeEvent,
     ll::memory::HookPriority::Normal,
     Player,
@@ -89,7 +102,7 @@ LL_AUTO_TYPED_INSTANCE_HOOK(
     }
 }
 
-LL_AUTO_TYPED_INSTANCE_HOOK(
+LL_AUTO_TYPE_INSTANCE_HOOK(
     PlayerHurtEvent,
     ll::memory::HookPriority::Normal,
     Mob,
@@ -108,7 +121,7 @@ LL_AUTO_TYPED_INSTANCE_HOOK(
     return res;
 }
 
-LL_AUTO_TYPED_INSTANCE_HOOK(
+LL_AUTO_TYPE_INSTANCE_HOOK(
     PlayerDieEvent,
     ll::memory::HookPriority::Normal,
     Player,
@@ -122,7 +135,7 @@ LL_AUTO_TYPED_INSTANCE_HOOK(
     return origin(a1);
 }
 
-LL_AUTO_TYPED_INSTANCE_HOOK(
+LL_AUTO_TYPE_INSTANCE_HOOK(
     PlayerLeftEvent,
     ll::memory::HookPriority::Normal,
     ServerPlayer,
