@@ -18,7 +18,7 @@ void SendFakePlayerPacket(Player* pl) {
     pkt1.mUuid        = randomUuid;
     pl->sendNetworkPacket(pkt1);
     // Update Skin
-    auto         skin = pl->getSkin();
+    auto               skin = pl->getSkin();
     GMLIB_BinaryStream bs;
     bs.writeUuid(randomUuid);
     bs.writeSkin(skin);
