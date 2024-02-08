@@ -1,5 +1,4 @@
 #include "Global.h"
-#include "include_all.h"
 #include "ll/api/service/Bedrock.h"
 
 ll::Logger logger(PLUGIN_NAME);
