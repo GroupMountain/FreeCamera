@@ -1,7 +1,6 @@
 #pragma once
 #include "Plugin.h"
-#include <GMLIB/Files/JsonLanguage.h>
-#include <GMLIB/Server/BinaryStreamAPI.h>
+#include <include_all.h>
 #define PLUGIN_NAME "FreeCamera"
 
 using namespace GMLIB;

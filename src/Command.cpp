@@ -1,23 +1,14 @@
 #include "Global.h"
-#include "include_all.h"
 #include <GMLIB/Server/ActorAPI.h>
 
 using namespace GMLIB::Files::JsonLanguage;
+using namespace ll::command;
+
 
 void RegisterCommand() {
-    auto registry = ll::service::getCommandRegistry();
-    auto command = DynamicCommand::createCommand(
-        registry,
-        "freecamera",
-        tr("freecamera.command.desc"),
-        CommandPermissionLevel::Any
-    );
-    command->setAlias("fc");
-    command->addOverload();
-    command->setCallback([](DynamicCommand const&                                    command,
-                            CommandOrigin const&                                     origin,
-                            CommandOutput&                                           output,
-                            std::unordered_map<std::string, DynamicCommand::Result>& result) {
+    auto& cmd = CommandRegistrar::getInstance()
+                    .getOrCreateCommand("freecamera", tr("freecamera.command.desc"), CommandPermissionLevel::Any);
+    cmd.overload().execute<[&](CommandOrigin const& origin, CommandOutput& output) {
         auto entity = (GMLIB_Actor*)origin.getEntity();
         if (entity && entity->isPlayer()) {
             auto pl   = (Player*)entity;
@@ -31,6 +22,5 @@ void RegisterCommand() {
             }
         }
         return output.error(tr("freecamera.command.console"));
-    });
-    DynamicCommand::setup(registry, std::move(command));
+    }>();
 }
