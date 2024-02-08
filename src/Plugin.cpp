@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "include_all.h"
+#include "ll/api/service/Bedrock.h"
 
 ll::Logger logger(PLUGIN_NAME);
 
@@ -38,7 +39,7 @@ bool Plugin::disable() {
     });
     auto registry = ll::service::getCommandRegistry();
     if (registry) {
-        registry->unregisterCommand("freecamera");
+        // registry->unregisterCommand("freecamera");
     } else {
         logger.error("Fail to unregister freecamera command!");
     }
