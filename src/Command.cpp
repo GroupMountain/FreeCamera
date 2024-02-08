@@ -9,7 +9,7 @@ void RegisterCommand() {
     auto& cmd = CommandRegistrar::getInstance().getOrCreateCommand(
         "fc", tr("freecamera.command.desc"),
         CommandPermissionLevel::Any,
-        CommandFlagValue::None
+        CommandFlagValue::NotCheat
     );
     cmd.overload().execute<[&](CommandOrigin const& origin, CommandOutput& output) {
         auto entity = (GMLIB_Actor*)origin.getEntity();
