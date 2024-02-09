@@ -8,6 +8,7 @@ using namespace ll::command;
 void RegisterCommand() {
     auto& cmd = CommandRegistrar::getInstance()
                     .getOrCreateCommand("freecamera", tr("freecamera.command.desc"), CommandPermissionLevel::Any);
+    ll::service::getCommandRegistry()->registerAlias("freecamera", "fc");
     cmd.overload().execute<[&](CommandOrigin const& origin, CommandOutput& output) {
         auto entity = (GMLIB_Actor*)origin.getEntity();
         if (entity && entity->isPlayer()) {
