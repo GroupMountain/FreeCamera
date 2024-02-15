@@ -1,5 +1,4 @@
 #include "Global.h"
-#include "ll/api/service/Bedrock.h"
 
 ll::Logger logger(PLUGIN_NAME);
 
@@ -11,7 +10,7 @@ Plugin::Plugin(ll::plugin::NativePlugin& self) : mSelf(self) {
 }
 
 bool Plugin::enable() {
-    auto requireLibVersion = SemVersion(0, 7, 2, "", "");
+    auto requireLibVersion = SemVersion(0, 8, 0, "", "");
     if (!GMLIB::Version::checkLibVersionMatch(requireLibVersion)) {
         logger.error("GMLIB Version is outdated! Please update your GMLIB!");
         logger.error(
