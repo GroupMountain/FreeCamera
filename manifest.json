@@ -2,6 +2,9 @@
     "name": "${pluginName}",
     "entry": "${pluginFile}",
     "type": "native",
+    "author": "GroupMountain",
+    "description": "Free Camera",
+    "version": "0.9.0",
     "dependencies": [
         {
             "name": "GMLIB"
