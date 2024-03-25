@@ -32,24 +32,57 @@ void SendFakePlayerPacket(Player* pl) {
 void DisableFreeCameraPacket(Player* pl) {
     auto pkt1 = UpdatePlayerGameTypePacket(pl->getPlayerGameType(), pl->getOrCreateUniqueID());
     pl->sendNetworkPacket(pkt1);
-    auto auid = pl->getOrCreateUniqueID();
-    auid.id   = auid.id + 114514;
-    auto pkt2 = RemoveActorPacket(auid);
+    auto uniqueId = pl->getOrCreateUniqueID();
+    uniqueId.id   = uniqueId.id + 114514;
+    auto pkt2     = RemoveActorPacket(uniqueId);
     pl->sendNetworkPacket(pkt2);
 }
+
+/*
+void SendActorLinkPacket(Player* pl) {
+    auto links = pl->getLinks();
+    for (auto& link : links) {
+        GMLIB_BinaryStream bs;
+        if (ll::service::getLevel()->getPlayer(link.A)) {
+            bs.writeVarInt64(link.A.id + 114514);
+        } else {
+            bs.writeVarInt64(link.A.id);
+        }
+        if (ll::service::getLevel()->getPlayer(link.B)) {
+            bs.writeVarInt64(link.B.id + 114514);
+        } else {
+            bs.writeVarInt64(link.B.id);
+        }
+        bs.writeUnsignedChar((uchar)link.type);
+        bs.writeBool(link.mImmediate);
+        bs.writeBool(link.mPassengerInitiated);
+        GMLIB::Server::NetworkPacket<(int)MinecraftPacketIds::SetActorLink> pkt(bs.getAndReleaseData());
+        pl->sendNetworkPacket(pkt);
+    }
+}
+*/
 
 void EnableFreeCamera(Player* pl) {
     FreeCamList.insert(pl->getNetworkIdentifier().mGuid.g);
     EnableFreeCameraPacket(pl);
     SendFakePlayerPacket(pl);
+    // SendActorLinkPacket(pl);
 }
 
 void DisableFreeCamera(Player* pl) {
     auto pos   = pl->getFeetPos();
     auto dimid = pl->getDimensionId();
+    // auto links = pl->getLinks();
     FreeCamList.erase(pl->getNetworkIdentifier().mGuid.g);
     DisableFreeCameraPacket(pl);
     pl->teleport(pos, dimid);
+    // for (auto& link : links) {
+    //     auto ride  = ll::service::getLevel()->fetchEntity(link.A);
+    //     auto rider = ll::service::getLevel()->fetchEntity(link.B);
+    //     if (ride && rider) {
+    //        rider->startRiding(*ride);
+    //    }
+    //}
 }
 
 } // namespace FreeCamera

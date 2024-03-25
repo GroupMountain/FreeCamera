@@ -1,5 +1,4 @@
 #pragma once
-#include "Plugin.h"
 #include <include_all.h>
 #define PLUGIN_NAME "FreeCamera"
 
