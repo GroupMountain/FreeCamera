@@ -17,4 +17,4 @@ void initLanguage() {
     Language->chooseLanguage(languageCode);
 }
 
-std::string tr(std::string key) { return Language->translate(key); }
+std::string tr(std::string key, std::vector<std::string> data) { return Language->translate(key, data); }

@@ -11,6 +11,14 @@ std::unique_ptr<Entry>& Entry::getInstance() {
 
 bool Entry::load() {
     initLanguage();
+    if (Version::getProtocolVersion() != TARGET_PROTOCOL) {
+        logger.error(tr("error.protocolMismatch.info"));
+        logger.error(
+            tr("error.protocolMismatch.version",
+               {std::to_string(TARGET_PROTOCOL), std::to_string(Version::getProtocolVersion())})
+        );
+        return false;
+    }
     return true;
 }
 
