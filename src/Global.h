@@ -1,8 +1,8 @@
 #pragma once
 #include <include_all.h>
 
-#define PLUGIN_NAME "FreeCamera"
-#define TARGET_PROTOCOL 662
+#define PLUGIN_NAME     "FreeCamera"
+#define TARGET_PROTOCOL 671
 
 using namespace GMLIB;
 

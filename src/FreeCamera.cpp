@@ -4,10 +4,7 @@ std::unordered_set<uint64> FreeCamList;
 
 namespace FreeCamera {
 
-void EnableFreeCameraPacket(Player* pl) {
-    auto pkt = UpdatePlayerGameTypePacket(GameType::Spectator, pl->getOrCreateUniqueID());
-    pl->sendNetworkPacket(pkt);
-}
+void EnableFreeCameraPacket(Player* pl) { ((GMLIB_Player*)pl)->setClientGamemode(GameType::Spectator); }
 
 void SendFakePlayerPacket(Player* pl) {
     // Client Player
@@ -30,8 +27,7 @@ void SendFakePlayerPacket(Player* pl) {
 }
 
 void DisableFreeCameraPacket(Player* pl) {
-    auto pkt1 = UpdatePlayerGameTypePacket(pl->getPlayerGameType(), pl->getOrCreateUniqueID());
-    pl->sendNetworkPacket(pkt1);
+    ((GMLIB_Player*)pl)->setClientGamemode(pl->getPlayerGameType());
     auto uniqueId = pl->getOrCreateUniqueID();
     uniqueId.id   = uniqueId.id + 114514;
     auto pkt2     = RemoveActorPacket(uniqueId);

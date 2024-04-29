@@ -5,7 +5,7 @@ std::string defaultLanguage_en_US = R"({
     "freecamera.command.desc": "Enable or disable freecamera mode.",
     "freecamera.command.enabled": "Freecamera mode enabled",
     "freecamera.command.disabled": "Freecamera mode disabled",
-    "freecamera.command.console": "This command can only execute by players or console.",
+    "freecamera.command.console": "This command can only execute by players.",
     "error.protocolMismatch.info":"You are running on an unsupport protocol version! This may result in crash!",
     "error.protocolMismatch.version":"Support protocol %1$s, current protocol %2$s."
 })";
