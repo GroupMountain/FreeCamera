@@ -7,8 +7,8 @@
         "description": "Free Camera Plugin on Bedrock Dedicated Server",
         "author": "GroupMountain",
         "tags": [
-            "LeviLamina",
-            "FreeCamera"
+            "levilamina",
+            "freecamera"
         ]
     },
     "asset_url": "https://github.com/GroupMountain/FreeCamera/releases/download/v0.12.0/FreeCamera-windows-x64.zip",
