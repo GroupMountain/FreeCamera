@@ -81,22 +81,6 @@ void DisableFreeCamera(Player* pl) {
 }
 
 LL_TYPE_INSTANCE_HOOK(
-    SubChunkRequestEvent,
-    ll::memory::HookPriority::Normal,
-    ServerNetworkHandler,
-    "?handle@ServerNetworkHandler@@UEAAXAEBVNetworkIdentifier@@AEBVSubChunkRequestPacket@@@Z",
-    void,
-    NetworkIdentifier const&     id,
-    SubChunkRequestPacket const& pkt
-) {
-    if (FreeCamList.count(id.mGuid.g)) {
-        return;
-    } else {
-        return origin(id, pkt);
-    }
-}
-
-LL_TYPE_INSTANCE_HOOK(
     ServerPlayerMoveHandleEvent,
     ll::memory::HookPriority::Normal,
     ServerNetworkHandler,
@@ -105,7 +89,7 @@ LL_TYPE_INSTANCE_HOOK(
     NetworkIdentifier const&     id,
     PlayerAuthInputPacket const& pkt
 ) {
-    if (FreeCamList.count(id.mGuid.g)) {
+    if (FreeCamList.contains(id.mGuid.g)) {
         return;
     } else {
         return origin(id, pkt);
@@ -121,7 +105,7 @@ LL_TYPE_INSTANCE_HOOK(
     ::GameType gamemode
 ) {
     origin(gamemode);
-    if (FreeCamList.count(getNetworkIdentifier().mGuid.g)) {
+    if (FreeCamList.contains(getNetworkIdentifier().mGuid.g)) {
         FreeCamera::DisableFreeCamera(this);
     }
 }
@@ -138,7 +122,7 @@ LL_TYPE_INSTANCE_HOOK(
     auto res = origin(a1, a2);
     if (this->isType(ActorType::Player) && res != 0) {
         auto pl = (Player*)this;
-        if ((pl->isSurvival() || pl->isAdventure()) && FreeCamList.count(pl->getNetworkIdentifier().mGuid.g)) {
+        if ((pl->isSurvival() || pl->isAdventure()) && FreeCamList.contains(pl->getNetworkIdentifier().mGuid.g)) {
             FreeCamera::DisableFreeCamera(pl);
         }
     }
@@ -153,7 +137,7 @@ LL_TYPE_INSTANCE_HOOK(
     void,
     class ActorDamageSource const& a1
 ) {
-    if (FreeCamList.count(getNetworkIdentifier().mGuid.g)) {
+    if (FreeCamList.contains(getNetworkIdentifier().mGuid.g)) {
         FreeCamera::DisableFreeCamera(this);
     }
     return origin(a1);
@@ -172,7 +156,6 @@ LL_TYPE_INSTANCE_HOOK(
 
 struct Impl {
     ll::memory::HookRegistrar<
-        SubChunkRequestEvent,
         ServerPlayerMoveHandleEvent,
         PlayerGamemodeChangeEvent,
         PlayerHurtEvent,
