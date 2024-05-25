@@ -24,6 +24,8 @@ public:
     /// @return True if the plugin is disabled successfully.
     bool disable();
 
+    bool unload();
+
     Config& getConfig();
 
     LangI18n& getI18n();
