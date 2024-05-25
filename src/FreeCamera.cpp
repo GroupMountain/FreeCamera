@@ -16,14 +16,13 @@ void SendFakePlayerPacket(Player* pl) {
     // Update Skin
     auto               skin = pl->getSkin();
     GMLIB_BinaryStream bs;
+    bs.writePacketHeader(MinecraftPacketIds::PlayerSkin);
     bs.writeUuid(randomUuid);
     bs.writeSkin(skin);
     bs.writeString("");
     bs.writeString("");
     bs.writeBool(true);
-    auto pkt2 = MinecraftPackets::createPacket(MinecraftPacketIds::PlayerSkin);
-    pkt2->read(bs);
-    pl->sendNetworkPacket(*pkt2);
+    bs.sendTo(*pl);
 }
 
 void DisableFreeCameraPacket(Player* pl) {
