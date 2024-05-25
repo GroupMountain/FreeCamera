@@ -1,5 +1,6 @@
 #include "Entry.h"
 #include "Global.h"
+#include "Language.h"
 ll::Logger logger(PLUGIN_NAME);
 
 namespace FreeCamera {
@@ -10,7 +11,6 @@ std::unique_ptr<Entry>& Entry::getInstance() {
 }
 
 bool Entry::load() {
-    initLanguage();
     if (Version::getProtocolVersion() != TARGET_PROTOCOL) {
         logger.error(tr("error.protocolMismatch.info"));
         logger.error(
@@ -23,11 +23,21 @@ bool Entry::load() {
 }
 
 bool Entry::enable() {
+    mConfig.emplace();
+    if (!ll::config::loadConfig(*mConfig, getSelf().getConfigDir() / u8"config.json")) {
+        ll::config::saveConfig(*mConfig, getSelf().getConfigDir() / u8"config.json");
+    }
+    mI18n.emplace(getSelf().getLangDir(), mConfig->language);
+    mI18n->updateOrCreateLanguage("en_US", en_US);
+    mI18n->updateOrCreateLanguage("zh_CN", zh_CN);
+    mI18n->loadAllLanguages();
+    mI18n->chooseLanguage(mConfig->language);
     RegisterCommand();
     return true;
 }
 
 bool Entry::disable() {
+    mConfig.reset();
     FreeCamList.clear();
     ll::service::getLevel().get().forEachPlayer([](Player& pl) -> bool {
         FreeCamera::DisableFreeCamera(&pl);
@@ -36,6 +46,14 @@ bool Entry::disable() {
     return true;
 }
 
+Config& Entry::getConfig() { return mConfig.value(); }
+
+LangI18n& Entry::getI18n() { return *mI18n; }
+
 } // namespace FreeCamera
 
 LL_REGISTER_PLUGIN(FreeCamera::Entry, FreeCamera::Entry::getInstance());
+
+std::string tr(std::string const& key, std::vector<std::string> const& data) {
+    return FreeCamera::Entry::getInstance()->getI18n().get(key, data);
+}
