@@ -80,10 +80,7 @@ void DisableFreeCamera(Player* pl) {
     //}
 }
 
-} // namespace FreeCamera
-
-
-LL_AUTO_TYPE_INSTANCE_HOOK(
+LL_TYPE_INSTANCE_HOOK(
     SubChunkRequestEvent,
     ll::memory::HookPriority::Normal,
     ServerNetworkHandler,
@@ -99,7 +96,7 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     }
 }
 
-LL_AUTO_TYPE_INSTANCE_HOOK(
+LL_TYPE_INSTANCE_HOOK(
     ServerPlayerMoveHandleEvent,
     ll::memory::HookPriority::Normal,
     ServerNetworkHandler,
@@ -115,7 +112,7 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     }
 }
 
-LL_AUTO_TYPE_INSTANCE_HOOK(
+LL_TYPE_INSTANCE_HOOK(
     PlayerGamemodeChangeEvent,
     ll::memory::HookPriority::Normal,
     Player,
@@ -129,7 +126,7 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     }
 }
 
-LL_AUTO_TYPE_INSTANCE_HOOK(
+LL_TYPE_INSTANCE_HOOK(
     PlayerHurtEvent,
     ll::memory::HookPriority::Normal,
     Mob,
@@ -148,7 +145,7 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     return res;
 }
 
-LL_AUTO_TYPE_INSTANCE_HOOK(
+LL_TYPE_INSTANCE_HOOK(
     PlayerDieEvent,
     ll::memory::HookPriority::Normal,
     Player,
@@ -162,7 +159,7 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     return origin(a1);
 }
 
-LL_AUTO_TYPE_INSTANCE_HOOK(
+LL_TYPE_INSTANCE_HOOK(
     PlayerLeftEvent,
     ll::memory::HookPriority::Normal,
     ServerPlayer,
@@ -172,3 +169,26 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     FreeCamList.erase(getNetworkIdentifier().mGuid.g);
     return origin();
 }
+
+struct Impl {
+    ll::memory::HookRegistrar<
+        SubChunkRequestEvent,
+        ServerPlayerMoveHandleEvent,
+        PlayerGamemodeChangeEvent,
+        PlayerHurtEvent,
+        PlayerDieEvent,
+        PlayerLeftEvent>
+        r;
+};
+
+std::unique_ptr<Impl> impl;
+
+void freecameraHook(bool enable) {
+    if (enable) {
+        if (!impl) impl = std::make_unique<Impl>();
+    } else {
+        impl.reset();
+    }
+};
+
+} // namespace FreeCamera

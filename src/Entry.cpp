@@ -28,6 +28,7 @@ bool Entry::load() {
         );
         return false;
     }
+    freecameraHook(true);
     return true;
 }
 
@@ -48,6 +49,8 @@ bool Entry::disable() {
 bool Entry::unload() {
     mConfig.reset();
     mI18n.reset();
+    freecameraHook(false);
+    getInstance().reset();
     return true;
 }
 

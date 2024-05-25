@@ -8,7 +8,9 @@ using namespace GMLIB;
 
 extern ll::Logger                 logger;
 extern std::unordered_set<uint64> FreeCamList;
-extern void                       RegisterCommand();
+
+extern void RegisterCommand();
+extern void freecameraHook(bool enable);
 
 extern std::string tr(std::string const& key, std::vector<std::string> const& data = {});
 
