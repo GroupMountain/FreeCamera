@@ -1,6 +1,8 @@
 add_rules("mode.debug", "mode.release", "mode.releasedbg")
 
 add_repositories("liteldev-repo https://github.com/LiteLDev/xmake-repo.git")
+add_repositories("groupmountain-repo https://github.com/GroupMountain/xmake-repo.git")
+
 
 if not has_config("vs_runtime") then
     set_runtimes("MD")
@@ -8,6 +10,8 @@ end
 
 -- Option 1: Use the latest version of LeviLamina released on GitHub.
 add_requires("levilamina")
+add_requires("gmlib")
+
 
 -- Option 2: Use a specific version of LeviLamina released on GitHub.
 -- add_requires("levilamina x.x.x")
@@ -51,15 +55,12 @@ target("FreeCamera") -- Change this to your plugin name.
     add_files(
         "src/**.cpp"
     )
-    add_links(
-        "SDK-GMLIB/Lib/GMLIB"
-    )
     add_includedirs(
-        "SDK-GMLIB",
         "src"
     )
     add_packages(
-        "levilamina"
+        "levilamina",
+        "gmlib"
     )
     add_shflags(
         "/DELAYLOAD:bedrock_server.dll" -- Magic to import symbols from BDS

@@ -2,7 +2,7 @@
 #include <include_all.h>
 
 #define PLUGIN_NAME     "FreeCamera"
-#define TARGET_PROTOCOL 671
+#define TARGET_PROTOCOL 685
 
 using namespace GMLIB;
 
