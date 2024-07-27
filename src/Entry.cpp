@@ -60,7 +60,7 @@ LangI18n& Entry::getI18n() { return mI18n.value(); }
 
 } // namespace FreeCamera
 
-LL_REGISTER_PLUGIN(FreeCamera::Entry, FreeCamera::Entry::getInstance());
+LL_REGISTER_MOD(FreeCamera::Entry, FreeCamera::Entry::getInstance());
 
 std::string tr(std::string const& key, std::vector<std::string> const& data) {
     return FreeCamera::Entry::getInstance()->getI18n().get(key, data);
