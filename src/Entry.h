@@ -11,9 +11,9 @@ class Entry {
 public:
     static std::unique_ptr<Entry>& getInstance();
 
-    Entry(ll::plugin::NativePlugin& self) : mSelf(self) {}
+    Entry(ll::mod::NativeMod& self) : mSelf(self) {}
 
-    [[nodiscard]] ll::plugin::NativePlugin& getSelf() const { return mSelf; }
+    [[nodiscard]] ll::mod::NativeMod& getSelf() const { return mSelf; }
 
     /// @return True if the plugin is loaded successfully.
     bool load();
@@ -31,9 +31,9 @@ public:
     LangI18n& getI18n();
 
 private:
-    ll::plugin::NativePlugin& mSelf;
-    std::optional<Config>     mConfig;
-    std::optional<LangI18n>   mI18n;
+    ll::mod::NativeMod&     mSelf;
+    std::optional<Config>   mConfig;
+    std::optional<LangI18n> mI18n;
 };
 
 } // namespace FreeCamera
