@@ -1,5 +1,5 @@
 # FreeCamera
-Free Camera Plugin on Bedrock Dedicated Server
+Free Camera Mod on Bedrock Dedicated Server
 
 # 开源许可
 ## 源代码可用性
