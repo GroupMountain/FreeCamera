@@ -1,19 +1,19 @@
 {
     "format_version": 2,
     "tooth": "github.com/GroupMountain/FreeCamera",
-    "version": "0.13.0",
+    "version": "0.13.2",
     "info": {
         "name": "FreeCamera",
-        "description": "Free Camera Plugin on Bedrock Dedicated Server",
+        "description": "Free Camera Mod on Bedrock Dedicated Server",
         "author": "GroupMountain",
         "tags": [
             "levilamina",
             "freecamera"
         ]
     },
-    "asset_url": "https://github.com/GroupMountain/FreeCamera/releases/download/v0.13.0/FreeCamera-windows-x64.zip",
+    "asset_url": "https://github.com/GroupMountain/FreeCamera/releases/download/v0.13.2/FreeCamera-windows-x64.zip",
     "dependencies": {
-        "github.com/GroupMountain/GMLIB": ">=0.13.0"
+        "github.com/GroupMountain/GMLIB": ">=0.13.8"
     },
     "files": {
         "place": [
