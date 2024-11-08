@@ -1,5 +1,5 @@
 #pragma once
-#include <headers/include_all.h>
+#include <include_all.h>
 
 #define MOD_NAME     "FreeCamera"
 #define TARGET_PROTOCOL 686

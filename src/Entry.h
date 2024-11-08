@@ -26,12 +26,12 @@ public:
 
     Config& getConfig();
 
-    gmlib::i18n::LangI18n& getI18n();
+    GMLIB::Files::I18n::LangI18n& getI18n();
 
 private:
-    ll::mod::NativeMod&     mSelf;
-    std::optional<Config>   mConfig;
-    std::optional<gmlib::i18n::LangI18n> mI18n;
+    ll::mod::NativeMod&                         mSelf;
+    std::optional<Config>                       mConfig;
+    std::optional<GMLIB::Files::I18n::LangI18n> mI18n;
 };
 
 } // namespace FreeCamera

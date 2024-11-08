@@ -20,11 +20,11 @@ bool Entry::load() {
     mI18n->updateOrCreateLanguage("en_US", en_US);
     mI18n->updateOrCreateLanguage("zh_CN", zh_CN);
     mI18n->loadAllLanguages();
-    if (gmlib::Version::getProtocolVersion() != TARGET_PROTOCOL) {
+    if (GMLIB::Version::getProtocolVersion() != TARGET_PROTOCOL) {
         logger.error(tr("error.protocolMismatch.info"));
         logger.error(
             tr("error.protocolMismatch.version",
-               {std::to_string(TARGET_PROTOCOL), std::to_string(gmlib::Version::getProtocolVersion())})
+               {std::to_string(TARGET_PROTOCOL), std::to_string(GMLIB::Version::getProtocolVersion())})
         );
         return false;
     }
@@ -56,7 +56,7 @@ bool Entry::unload() {
 
 Config& Entry::getConfig() { return mConfig.value(); }
 
-gmlib::i18n::LangI18n& Entry::getI18n() { return mI18n.value(); }
+GMLIB::Files::I18n::LangI18n& Entry::getI18n() { return mI18n.value(); }
 
 } // namespace FreeCamera
 

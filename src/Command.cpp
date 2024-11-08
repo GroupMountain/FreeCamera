@@ -5,7 +5,7 @@ void RegisterCommand() {
                     .getOrCreateCommand("freecamera", tr("freecamera.command.desc"), CommandPermissionLevel::Any);
     ll::service::getCommandRegistry()->registerAlias("freecamera", "fc");
     cmd.overload().execute<[&](CommandOrigin const& origin, CommandOutput& output) {
-        auto entity = (gmlib::world::Actor*)origin.getEntity();
+        auto entity = (GMLIB_Actor*)origin.getEntity();
         if (entity && entity->isPlayer()) {
             auto pl   = (Player*)entity;
             auto guid = pl->getNetworkIdentifier().mGuid.g;
