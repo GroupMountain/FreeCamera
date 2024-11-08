@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "mc/network/packet/UpdateAbilitiesPacket.h"
 
 std::unordered_set<uint64> FreeCamList;
 
@@ -29,8 +30,8 @@ void DisableFreeCameraPacket(Player* pl) {
     ((GMLIB_Player*)pl)->setClientGamemode(pl->getPlayerGameType());
     auto uniqueId = pl->getOrCreateUniqueID();
     uniqueId.id   = uniqueId.id + 114514;
-    auto pkt2     = RemoveActorPacket(uniqueId);
-    pl->sendNetworkPacket(pkt2);
+    RemoveActorPacket(uniqueId).sendTo(*pl);
+    UpdateAbilitiesPacket(pl->getOrCreateUniqueID(), pl->getAbilities()).sendTo(*pl);
 }
 
 /*
