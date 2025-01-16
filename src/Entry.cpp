@@ -2,12 +2,10 @@
 #include "Global.h"
 #include "Language.h"
 
-ll::Logger logger(MOD_NAME);
-
 namespace FreeCamera {
 
-std::unique_ptr<Entry>& Entry::getInstance() {
-    static std::unique_ptr<Entry> instance;
+Entry& Entry::getInstance() {
+    static Entry instance;
     return instance;
 }
 
@@ -21,8 +19,8 @@ bool Entry::load() {
     mI18n->updateOrCreateLanguage("zh_CN", zh_CN);
     mI18n->loadAllLanguages();
     if (GMLIB::Version::getProtocolVersion() != TARGET_PROTOCOL) {
-        logger.error(tr("error.protocolMismatch.info"));
-        logger.error(
+        getSelf().getLogger().error(tr("error.protocolMismatch.info"));
+        getSelf().getLogger().error(
             tr("error.protocolMismatch.version",
                {std::to_string(TARGET_PROTOCOL), std::to_string(GMLIB::Version::getProtocolVersion())})
         );
@@ -50,7 +48,6 @@ bool Entry::unload() {
     mConfig.reset();
     mI18n.reset();
     FreeCamera::freecameraHook(false);
-    getInstance().reset();
     return true;
 }
 
@@ -63,5 +60,5 @@ GMLIB::Files::I18n::LangI18n& Entry::getI18n() { return mI18n.value(); }
 LL_REGISTER_MOD(FreeCamera::Entry, FreeCamera::Entry::getInstance());
 
 std::string tr(std::string const& key, std::vector<std::string> const& data) {
-    return FreeCamera::Entry::getInstance()->getI18n().get(key, data);
+    return FreeCamera::Entry::getInstance().getI18n().get(key, data);
 }

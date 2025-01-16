@@ -1,10 +1,9 @@
 #pragma once
 #include <include_all.h>
 
-#define MOD_NAME     "FreeCamera"
-#define TARGET_PROTOCOL 686
+#define MOD_NAME        "FreeCamera"
+#define TARGET_PROTOCOL 766
 
-extern ll::Logger                 logger;
 extern std::unordered_set<uint64> FreeCamList;
 
 extern void RegisterCommand();

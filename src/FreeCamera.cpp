@@ -1,5 +1,8 @@
 #include "Global.h"
 #include "mc/network/packet/UpdateAbilitiesPacket.h"
+#include <mc/common/ActorUniqueID.h>
+#include <mc/server/ServerPlayer.h>
+
 
 std::unordered_set<uint64> FreeCamList;
 
@@ -9,10 +12,10 @@ void EnableFreeCameraPacket(Player* pl) { ((GMLIB_Player*)pl)->setClientGamemode
 
 void SendFakePlayerPacket(Player* pl) {
     // Client Player
-    auto pkt1         = AddPlayerPacket(*pl);
-    pkt1.mEntityId.id = pkt1.mEntityId.id + 114514;
-    auto randomUuid   = mce::UUID::random();
-    pkt1.mUuid        = randomUuid;
+    auto pkt1             = AddPlayerPacket(*pl);
+    pkt1.mEntityId->rawID = pkt1.mEntityId->rawID + 114514;
+    auto randomUuid       = mce::UUID::random();
+    pkt1.mUuid            = randomUuid;
     pl->sendNetworkPacket(pkt1);
     // Update Skin
     auto               skin = pl->getSkin();
@@ -28,8 +31,8 @@ void SendFakePlayerPacket(Player* pl) {
 
 void DisableFreeCameraPacket(Player* pl) {
     ((GMLIB_Player*)pl)->setClientGamemode(pl->getPlayerGameType());
-    auto uniqueId = pl->getOrCreateUniqueID();
-    uniqueId.id   = uniqueId.id + 114514;
+    auto uniqueId  = pl->getOrCreateUniqueID();
+    uniqueId.rawID = uniqueId.rawID + 114514;
     RemoveActorPacket(uniqueId).sendTo(*pl);
     UpdateAbilitiesPacket(pl->getOrCreateUniqueID(), pl->getAbilities()).sendTo(*pl);
 }
@@ -85,7 +88,7 @@ LL_TYPE_INSTANCE_HOOK(
     ServerPlayerMoveHandleEvent,
     ll::memory::HookPriority::Normal,
     ServerNetworkHandler,
-    "?handle@ServerNetworkHandler@@UEAAXAEBVNetworkIdentifier@@AEBVPlayerAuthInputPacket@@@Z",
+    &ServerNetworkHandler::$handle,
     void,
     NetworkIdentifier const&     id,
     PlayerAuthInputPacket const& pkt
@@ -101,7 +104,7 @@ LL_TYPE_INSTANCE_HOOK(
     PlayerGamemodeChangeEvent,
     ll::memory::HookPriority::Normal,
     Player,
-    "?setPlayerGameType@Player@@UEAAXW4GameType@@@Z",
+    &Player::$setPlayerGameType,
     void,
     ::GameType gamemode
 ) {
@@ -115,7 +118,7 @@ LL_TYPE_INSTANCE_HOOK(
     PlayerHurtEvent,
     ll::memory::HookPriority::Normal,
     Mob,
-    "?getDamageAfterResistanceEffect@Mob@@QEBAMAEBVActorDamageSource@@M@Z",
+    &Mob::getDamageAfterResistanceEffect,
     float,
     class ActorDamageSource const& a1,
     float                          a2
@@ -134,7 +137,7 @@ LL_TYPE_INSTANCE_HOOK(
     PlayerDieEvent,
     ll::memory::HookPriority::Normal,
     Player,
-    "?die@Player@@UEAAXAEBVActorDamageSource@@@Z",
+    &Player::$die,
     void,
     class ActorDamageSource const& a1
 ) {
@@ -148,7 +151,7 @@ LL_TYPE_INSTANCE_HOOK(
     PlayerLeftEvent,
     ll::memory::HookPriority::Normal,
     ServerPlayer,
-    "?disconnect@ServerPlayer@@QEAAXXZ",
+    &ServerPlayer::disconnect,
     void
 ) {
     FreeCamList.erase(getNetworkIdentifier().mGuid.g);
