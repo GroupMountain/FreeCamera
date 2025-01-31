@@ -13,7 +13,7 @@
     },
     "asset_url": "https://github.com/GroupMountain/FreeCamera/releases/download/v0.13.2/FreeCamera-windows-x64.zip",
     "dependencies": {
-        "github.com/GroupMountain/GMLIB": ">=0.13.8"
+        "github.com/GroupMountain/GMLIB": ">=0.13.10"
     },
     "files": {
         "place": [
