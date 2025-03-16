@@ -1,8 +1,10 @@
 #pragma once
-#include <include_all.h>
+#include <unordered_set>
+#include <string>
+#include <mc/world/actor/player/Player.h>
 
 #define MOD_NAME        "FreeCamera"
-#define TARGET_PROTOCOL 766
+#define TARGET_PROTOCOL 776
 
 extern std::unordered_set<uint64> FreeCamList;
 

@@ -1,14 +1,23 @@
 #include "Global.h"
+#include "gmlib/mc/network/BinaryStream.h"
+#include "gmlib/mc/world/actor/Player.h"
+#include "ll/api/memory/Hook.h"
+#include "mc/deps/core/math/Vec3.h"
+#include "mc/legacy/ActorUniqueID.h"
+#include "mc/network/ServerNetworkHandler.h"
+#include "mc/network/packet/AddPlayerPacket.h"
+#include "mc/network/packet/RemoveActorPacket.h"
 #include "mc/network/packet/UpdateAbilitiesPacket.h"
-#include <mc/common/ActorUniqueID.h>
-#include <mc/server/ServerPlayer.h>
-
+#include "mc/server/ServerPlayer.h"
+#include "mc/world/actor/player/SerializedSkin.h"
 
 std::unordered_set<uint64> FreeCamList;
 
 namespace FreeCamera {
 
-void EnableFreeCameraPacket(Player* pl) { ((GMLIB_Player*)pl)->setClientGamemode(GameType::Spectator); }
+void EnableFreeCameraPacket(Player* pl) {
+    ((gmlib::world::actor::GMPlayer*)pl)->setClientGamemode(GameType::Spectator);
+}
 
 void SendFakePlayerPacket(Player* pl) {
     // Client Player
@@ -18,22 +27,29 @@ void SendFakePlayerPacket(Player* pl) {
     pkt1.mUuid            = randomUuid;
     pl->sendNetworkPacket(pkt1);
     // Update Skin
-    auto               skin = pl->getSkin();
-    GMLIB_BinaryStream bs;
+    auto                           skin = SerializedSkin(pl->getConnectionRequest());
+    gmlib::network::GMBinaryStream bs;
     bs.writePacketHeader(MinecraftPacketIds::PlayerSkin);
     bs.writeUuid(randomUuid);
     bs.writeSkin(skin);
     bs.writeString("");
     bs.writeString("");
     bs.writeBool(true);
-    bs.sendTo(*pl);
+    bs.sendTo(
+        *(gmlib::world::actor::GMPlayer*)pl,
+        NetworkPeer::Reliability::ReliableOrdered,
+        Compressibility::Compressible
+    );
 }
 
 void DisableFreeCameraPacket(Player* pl) {
-    ((GMLIB_Player*)pl)->setClientGamemode(pl->getPlayerGameType());
+    ((gmlib::world::actor::GMPlayer*)pl)->setClientGamemode(pl->getPlayerGameType());
     auto uniqueId  = pl->getOrCreateUniqueID();
     uniqueId.rawID = uniqueId.rawID + 114514;
-    RemoveActorPacket(uniqueId).sendTo(*pl);
+    // RemoveActorPacket(uniqueId).sendTo(*pl);
+    auto pkt      = RemoveActorPacket();
+    pkt.mEntityId = uniqueId;
+    pkt.sendTo(*pl);
     UpdateAbilitiesPacket(pl->getOrCreateUniqueID(), pl->getAbilities()).sendTo(*pl);
 }
 
@@ -103,8 +119,8 @@ LL_TYPE_INSTANCE_HOOK(
 LL_TYPE_INSTANCE_HOOK(
     PlayerGamemodeChangeEvent,
     ll::memory::HookPriority::Normal,
-    Player,
-    &Player::$setPlayerGameType,
+    ServerPlayer,
+    &ServerPlayer::$setPlayerGameType,
     void,
     ::GameType gamemode
 ) {

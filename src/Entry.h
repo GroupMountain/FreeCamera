@@ -1,6 +1,9 @@
 #pragma once
+
 #include "Config.h"
 #include "Global.h"
+#include "gmlib/gm/i18n/LangI18n.h"
+#include "ll/api/mod/NativeMod.h"
 
 namespace FreeCamera {
 
@@ -26,12 +29,12 @@ public:
 
     Config& getConfig();
 
-    GMLIB::Files::I18n::LangI18n& getI18n();
+    gmlib::i18n::LangI18n& getI18n();
 
 private:
-    ll::mod::NativeMod&                         mSelf;
-    std::optional<Config>                       mConfig;
-    std::optional<GMLIB::Files::I18n::LangI18n> mI18n;
+    ll::mod::NativeMod&                  mSelf;
+    std::optional<Config>                mConfig;
+    std::optional<gmlib::i18n::LangI18n> mI18n;
 };
 
 } // namespace FreeCamera

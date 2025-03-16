@@ -7,25 +7,23 @@ if not has_config("vs_runtime") then
     set_runtimes("MD")
 end
 
--- Option 1: Use the latest version of LeviLamina released on GitHub.
-add_requires("levilamina 1.0.0")
-add_requires("levibuildscript 0.3.0")
-add_requires("gmlib 0.13.10")
+add_requires(
+    "levilamina 1.1.0",
+    "levibuildscript",
+    "gmlib"
+)
 
-target("FreeCamera") -- Change this to your mod name.
+target("FreeCamera")
     add_cxflags(
         "/EHa",
-        "/utf-8"
-    )
-    add_files(
-        "src/**.cpp"
-    )
-    add_includedirs(
-        "src"
-    )
-    add_packages(
-        "levilamina",
-        "gmlib"
+        "/utf-8",
+        "/W4",
+        "/w44265",
+        "/w44289",
+        "/w44296",
+        "/w45263",
+        "/w44738",
+        "/w45204"
     )
     add_defines(
         "NOMINMAX", 
@@ -34,18 +32,15 @@ target("FreeCamera") -- Change this to your mod name.
         "_HAS_CXX20",
         "_HAS_CXX23"
     )
+    add_files("src/**.cpp")
+    add_includedirs("src")
+    add_packages(
+        "levilamina",
+        "gmlib"
+    )
     add_rules("@levibuildscript/linkrule")
+    add_rules("@levibuildscript/modpacker")
     set_exceptions("none")
     set_kind("shared")
     set_languages("cxx20")
-
-    after_build(function (target)
-        local mod_packer = import("scripts.after_build")
-
-        local mod_define = {
-            modName = target:name(),
-            modFile = path.filename(target:targetfile()),
-        }
-        
-        mod_packer.pack_mod(target,mod_define)
-    end)
+    set_symbols("debug")

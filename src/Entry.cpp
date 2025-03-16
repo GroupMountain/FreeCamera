@@ -1,6 +1,13 @@
 #include "Entry.h"
 #include "Global.h"
-#include "Language.h"
+#include "Language.h" // IWYU pragma: keep
+#include "gmlib/gm/i18n/LangI18n.h"
+#include "ll/api/Config.h"
+#include "ll/api/Versions.h"
+#include "ll/api/mod/NativeMod.h"
+#include "ll/api/mod/RegisterHelper.h"
+#include "ll/api/service/Bedrock.h"
+#include "mc/world/level/Level.h"
 
 namespace FreeCamera {
 
@@ -9,7 +16,9 @@ Entry& Entry::getInstance() {
     return instance;
 }
 
-bool Entry::load() {
+bool Entry::load() { return true; }
+
+bool Entry::enable() {
     mConfig.emplace();
     if (!ll::config::loadConfig(*mConfig, getSelf().getConfigDir() / u8"config.json")) {
         ll::config::saveConfig(*mConfig, getSelf().getConfigDir() / u8"config.json");
@@ -18,19 +27,15 @@ bool Entry::load() {
     mI18n->updateOrCreateLanguage("en_US", en_US);
     mI18n->updateOrCreateLanguage("zh_CN", zh_CN);
     mI18n->loadAllLanguages();
-    if (GMLIB::Version::getProtocolVersion() != TARGET_PROTOCOL) {
+    if (ll::getNetworkProtocolVersion() != TARGET_PROTOCOL) {
         getSelf().getLogger().error(tr("error.protocolMismatch.info"));
         getSelf().getLogger().error(
             tr("error.protocolMismatch.version",
-               {std::to_string(TARGET_PROTOCOL), std::to_string(GMLIB::Version::getProtocolVersion())})
+               {std::to_string(TARGET_PROTOCOL), std::to_string(ll::getNetworkProtocolVersion())})
         );
         return false;
     }
     FreeCamera::freecameraHook(true);
-    return true;
-}
-
-bool Entry::enable() {
     RegisterCommand();
     return true;
 }
@@ -53,7 +58,7 @@ bool Entry::unload() {
 
 Config& Entry::getConfig() { return mConfig.value(); }
 
-GMLIB::Files::I18n::LangI18n& Entry::getI18n() { return mI18n.value(); }
+gmlib::i18n::LangI18n& Entry::getI18n() { return mI18n.value(); }
 
 } // namespace FreeCamera
 
