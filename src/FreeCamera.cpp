@@ -126,7 +126,7 @@ LL_TYPE_INSTANCE_HOOK(
 ) {
     origin(gamemode);
     if (FreeCamList.contains(getNetworkIdentifier().mGuid.g)) {
-        FreeCamera::DisableFreeCamera(this);
+        DisableFreeCamera(this);
     }
 }
 
@@ -143,7 +143,7 @@ LL_TYPE_INSTANCE_HOOK(
     if (this->isType(ActorType::Player) && res != 0) {
         auto pl = (Player*)this;
         if ((pl->isSurvival() || pl->isAdventure()) && FreeCamList.contains(pl->getNetworkIdentifier().mGuid.g)) {
-            FreeCamera::DisableFreeCamera(pl);
+            DisableFreeCamera(pl);
         }
     }
     return res;
@@ -158,7 +158,7 @@ LL_TYPE_INSTANCE_HOOK(
     class ActorDamageSource const& a1
 ) {
     if (FreeCamList.contains(getNetworkIdentifier().mGuid.g)) {
-        FreeCamera::DisableFreeCamera(this);
+        DisableFreeCamera(this);
     }
     return origin(a1);
 }

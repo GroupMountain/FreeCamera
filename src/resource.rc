@@ -1,0 +1,4 @@
+#include "resource.h"
+
+en_US TEXTFILE "lang/en_US.lang"
+zh_CN TEXTFILE "lang/zh_CN.lang"

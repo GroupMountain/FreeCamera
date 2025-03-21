@@ -1,3 +1,4 @@
+#include "Entry.h"
 #include "Global.h"
 #include "gmlib/mc/world/actor/Actor.h"
 #include "ll/api/command/CommandHandle.h"
@@ -8,7 +9,7 @@
 
 void RegisterCommand() {
     auto& cmd = ll::command::CommandRegistrar::getInstance()
-                    .getOrCreateCommand("freecamera", tr("freecamera.command.desc"), CommandPermissionLevel::Any);
+                    .getOrCreateCommand("freecamera", "freecamera.command.desc"_tr(), CommandPermissionLevel::Any);
     ll::service::getCommandRegistry()->registerAlias("freecamera", "fc");
     cmd.overload().execute([&](CommandOrigin const& origin, CommandOutput& output) {
         auto entity = (gmlib::world::actor::GMActor*)origin.getEntity();
@@ -17,12 +18,12 @@ void RegisterCommand() {
             auto guid = pl->getNetworkIdentifier().mGuid.g;
             if (!FreeCamList.count(guid)) {
                 FreeCamera::EnableFreeCamera(pl);
-                return output.success(tr("freecamera.command.enabled"));
+                return output.success("freecamera.command.enabled"_tr());
             } else {
                 FreeCamera::DisableFreeCamera(pl);
-                return output.success(tr("freecamera.command.disabled"));
+                return output.success("freecamera.command.disabled"_tr());
             }
         }
-        return output.error(tr("freecamera.command.console"));
+        return output.error("freecamera.command.console"_tr());
     });
 }

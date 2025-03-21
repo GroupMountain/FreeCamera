@@ -32,7 +32,10 @@ target("FreeCamera")
         "_HAS_CXX20",
         "_HAS_CXX23"
     )
-    add_files("src/**.cpp")
+    add_files(
+        "src/**.cpp",
+        "src/**.rc"
+    )
     add_includedirs("src")
     add_packages(
         "levilamina",

@@ -38,3 +38,5 @@ private:
 };
 
 } // namespace FreeCamera
+
+LANGI18N_LITERALS(FreeCamera::Entry::getInstance().getI18n())
