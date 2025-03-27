@@ -8,7 +8,7 @@ if not has_config("vs_runtime") then
 end
 
 add_requires(
-    "levilamina 1.1.0",
+    "levilamina 1.1.1",
     "levibuildscript",
     "gmlib"
 )
