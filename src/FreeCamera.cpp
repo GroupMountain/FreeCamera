@@ -16,7 +16,7 @@ std::unordered_set<uint64> FreeCamList;
 namespace FreeCamera {
 
 void EnableFreeCameraPacket(Player* pl) {
-    ((gmlib::world::actor::GMPlayer*)pl)->setClientGamemode(GameType::Spectator);
+    ((gmlib::GMPlayer*)pl)->setClientGamemode(GameType::Spectator);
 }
 
 void SendFakePlayerPacket(Player* pl) {
@@ -28,7 +28,7 @@ void SendFakePlayerPacket(Player* pl) {
     pl->sendNetworkPacket(pkt1);
     // Update Skin
     auto                           skin = SerializedSkin(pl->getConnectionRequest());
-    gmlib::network::GMBinaryStream bs;
+    gmlib::GMBinaryStream bs;
     bs.writePacketHeader(MinecraftPacketIds::PlayerSkin);
     bs.writeUuid(randomUuid);
     bs.writeSkin(skin);
@@ -36,14 +36,14 @@ void SendFakePlayerPacket(Player* pl) {
     bs.writeString("");
     bs.writeBool(true);
     bs.sendTo(
-        *(gmlib::world::actor::GMPlayer*)pl,
+        *(gmlib::GMPlayer*)pl,
         NetworkPeer::Reliability::ReliableOrdered,
         Compressibility::Compressible
     );
 }
 
 void DisableFreeCameraPacket(Player* pl) {
-    ((gmlib::world::actor::GMPlayer*)pl)->setClientGamemode(pl->getPlayerGameType());
+    ((gmlib::GMPlayer*)pl)->setClientGamemode(pl->getPlayerGameType());
     auto uniqueId  = pl->getOrCreateUniqueID();
     uniqueId.rawID = uniqueId.rawID + 114514;
     // RemoveActorPacket(uniqueId).sendTo(*pl);
