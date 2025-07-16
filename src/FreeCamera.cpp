@@ -27,11 +27,11 @@ void SendFakePlayerPacket(Player* pl) {
     pkt1.mUuid            = randomUuid;
     pl->sendNetworkPacket(pkt1);
     // Update Skin
-    auto                           skin = SerializedSkin(pl->getConnectionRequest());
+    auto                           skin = pl->mSkin.get();
     gmlib::GMBinaryStream bs;
     bs.writePacketHeader(MinecraftPacketIds::PlayerSkin);
     bs.writeUuid(randomUuid);
-    bs.writeSkin(skin);
+    bs.writeSkin(*skin);
     bs.writeString("");
     bs.writeString("");
     bs.writeBool(true);
