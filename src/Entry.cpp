@@ -27,13 +27,6 @@ bool Entry::enable() {
     mI18n->updateOrCreateLanguage("en_US", en_US);
     mI18n->updateOrCreateLanguage("zh_CN", zh_CN);
     mI18n->loadAllLanguages();
-    if (ll::getNetworkProtocolVersion() != TARGET_PROTOCOL) {
-        getSelf().getLogger().error("error.protocolMismatch.info"_tr());
-        getSelf().getLogger().error(
-            "error.protocolMismatch.version"_tr(TARGET_PROTOCOL, ll::getNetworkProtocolVersion())
-        );
-        return false;
-    }
     FreeCamera::freecameraHook(true);
     RegisterCommand();
     return true;
